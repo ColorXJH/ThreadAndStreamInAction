@@ -1,5 +1,7 @@
 package modules.thread.part1.chapter9;
 
+import java.util.stream.Stream;
+
 /**
  * @author ColorXJH
  * @version 1.0
@@ -9,22 +11,26 @@ package modules.thread.part1.chapter9;
 public class ProduceConsumerVersion2 {
     public static void main(String[] args) {
         ProduceConsumerVersion2 pc=new ProduceConsumerVersion2();
-        new Thread("Produce"){
-            @Override
-            public void run() {
-                while(true){
-                    pc.produce();
-                }
-            }
-        }.start();
-        new Thread("Consumer"){
-            @Override
-            public void run() {
-                while (true){
-                    pc.consume();
-                }
-            }
-        }.start();
+        Stream.of("P1","P2").forEach(n->
+                new Thread("Produce"){
+                    @Override
+                    public void run() {
+                        while(true){
+                            pc.produce();
+                        }
+                    }
+                }.start()
+        );
+        Stream.of("C1","C2").forEach(n->
+                new Thread("Consumer"){
+                    @Override
+                    public void run() {
+                        while (true){
+                            pc.consume();
+                        }
+                    }
+                }.start()
+        );
     }
     private int i=0;
     private final Object lock = new Object();
