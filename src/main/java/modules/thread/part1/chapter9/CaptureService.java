@@ -22,6 +22,7 @@ public class CaptureService {
     private static LinkedList<Control>controls = new LinkedList<Control>();
     private static final int MAX_WORKER=10;
     public static void main(String[] args) {
+        long startTime = System.currentTimeMillis();
         List<Thread> workers=new ArrayList<Thread>();
         IntStream.range(0,1000).mapToObj(String::valueOf)
         //Arrays.asList("M1","M2","M3","M4","M5","M6","M7","M8","M9","M10","M11","M12","M13","M14","M15").stream()
@@ -38,7 +39,9 @@ public class CaptureService {
                 e.printStackTrace();
             }
         });
+        long endTime = System.currentTimeMillis();
         Optional.of("all of capture workers finished").ifPresent(System.out::println);
+        System.out.println("all_time is :"+(endTime-startTime)/1000+"秒");
 
     }
 
@@ -63,7 +66,7 @@ public class CaptureService {
             Optional.of("the worker["+Thread.currentThread().getName()+"] is running").ifPresent(System.out::println);
             try {
                 //模拟采集时间
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
