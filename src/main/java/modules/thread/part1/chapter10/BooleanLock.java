@@ -81,7 +81,7 @@ public class BooleanLock implements Lock{
 
     @Override
     public Collection<Thread> getBlockedThreads() {
-        //方式外部方法对改返回引用修改
+        //避免外部方法对改返回引用修改
         return Collections.unmodifiableCollection(blockedThreads);
     }
 
@@ -90,3 +90,7 @@ public class BooleanLock implements Lock{
         return blockedThreads.size();
     }
 }
+
+//try/catch 中的 return：先计算并保存返回值。
+//finally 块的执行：始终会执行，并可能影响变量，但不会改变已保存的返回值（除非 finally 中显式 return）。
+//finally 中的 return 优先级更高：如果有，覆盖之前保存的返回值；如果没有，之前的返回值会被正常返回。
